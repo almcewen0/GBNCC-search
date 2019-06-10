@@ -3,7 +3,7 @@ import os, subprocess
 # Name of institution where pipeline is being run
 institution = "McGill"                           
 # Name of HPC machine where pipeline is being run
-machine     = "guillimin"                        
+machine     = "beluga" %"guillimin"                        
 # Timezone of processing site                    
 timezone    = "Canada/Eastern"                   
 # User name on 'machine'                         
@@ -53,8 +53,39 @@ DATABASES = {
 
 
 # Dictionary for holding job submission scripts
-subscripts = {"guillimin":
-"""#!/bin/bash
+subscripts = {"beluga":
+#!/bin/bash
+#SLURM -J {jobnm}
+#SLURM --mail-user={email}
+#SLURM --mail-type=BEGIN,END
+#SLURM -N {nodenm}
+#SLURM --ntasks-per-node=1
+#SLURM -t walltime={walltimelim}
+#SLURM -A rrg-vkaspi-ad
+
+if [ {nodenm} == 1 ]
+  then
+    echo -e \"$HOSTNAME
+{jobid}
+0 0\" > {jobsdir}/{jobnm}.checkpoint
+    mkdir -p {workdir}
+    mv {filenm} {workdir}
+    cp {zaplist} {workdir}
+  else
+    set -- $({jobsdir}/{jobnm}.checkpoint)
+    echo -e \"$HOSTNAME
+{jobid}
+$3 $4\" > {jobsdir}/{jobnm}.checkpoint
+    mv {baseworkdir}/$2 {baseworkdir}/{jobid}
+fi
+cd {workdir}
+search.py -w {workdir} -i {hashnm} {basenm}.fits
+#rm -rf {workdir}
+              
+              
+"""    
+"guillimin":
+#!/bin/bash
 #PBS -S /bin/bash
 #PBS -V
 #PBS -N {jobnm}
