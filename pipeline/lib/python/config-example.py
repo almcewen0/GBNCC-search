@@ -55,13 +55,13 @@ DATABASES = {
 # Dictionary for holding job submission scripts
 subscripts = {"beluga":
 #!/bin/bash
-#SLURM -J {jobnm}
-#SLURM --mail-user={email}
-#SLURM --mail-type=BEGIN,END
-#SLURM -N {nodenm}
-#SLURM --ntasks-per-node=1
-#SLURM -t walltime={walltimelim}
-#SLURM -A rrg-vkaspi-ad
+#SBATCH -J {jobnm}
+#SBATCH --mail-user={email}
+#SBATCH --mail-type=BEGIN,END
+#SBATCH -N {nodenm}
+#SBATCH --ntasks-per-node=1
+#SBATCH -t walltime={walltimelim}
+#SBATCH -A rrg-vkaspi-ad
 
 if [ {nodenm} == 1 ]
   then
