@@ -3,7 +3,7 @@ import os, subprocess
 # Name of institution where pipeline is being run
 institution = "McGill"                           
 # Name of HPC machine where pipeline is being run
-machine     = "beluga" %"guillimin"                        
+machine     = "beluga" #"guillimin"                        
 # Timezone of processing site                    
 timezone    = "Canada/Eastern"                   
 # User name on 'machine'                         
